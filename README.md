@@ -77,27 +77,13 @@ Expected response: ```server.example.com.   161    IN      A     123.123.123.123
 STEP 2. COMPILE SOFTWARE
 ------------------------
 
-These instructions are for Ubuntu or Debian. Compiling will require boost and ssl.  On debian systems, these are provided by `libboost-dev` and `libssl-dev` respectively. 
+These instructions are for Ubuntu. Compiling will require boost and ssl.  On debian systems, these are provided by `libboost-dev` and `libssl-dev` respectively. 
 
-If running Debian, switch to root:
+$ ```sudo apt-get update```
 
-$ ```su```
+Install required software packages for DigiByte Seeder:
 
-Perform a system update:
-
-Ubuntu: $ ```sudo apt-get update```
-
-Debian: $ ```apt-get update```
-
-Install required software packages for DigiByte Seeder on Ubuntu or Debian:
-
-Ubuntu: $ ```sudo apt-get install gcc g++ build-essential libboost-all-dev libssl-dev git tmux iptables```
-
-Debian: $ ```apt-get install gcc g++ build-essential libboost-all-dev libssl-dev git tmux iptables```
-
-If running Debian, switch back to your user account ('user' in this example):
-
-$ ```su user```
+$ ```sudo apt-get install gcc g++ build-essential libboost-all-dev libssl-dev git tmux iptables```
 
 Clone the DigiByte Seeder software into your home folder:
 
@@ -186,17 +172,9 @@ Typically, you'll need root privileges to listen to port 53 (name service).
 One solution is using an iptables rule (Linux only) to redirect it to
 a non-privileged port.
 
-Ubuntu: $ ```sudo iptables -t nat -A PREROUTING -p udp --dport 53 -j REDIRECT --to-port 5353```
+$ ```sudo iptables -t nat -A PREROUTING -p udp --dport 53 -j REDIRECT --to-port 5353```
 
-Ubuntu: $ ```sudo apt-get install iptables-persistent -y```
-
-Debian: $ ```su```  (switch to root)
-
-Debian: $ ```/sbin/iptables -t nat -A PREROUTING -p udp --dport 53 -j REDIRECT --to-port 5353```
-
-Debian: $ ```apt install iptables-persistent -y```
-
-Debian: $ ```su user``` (switch back to your user account - 'user' in this example)
+$ ```sudo apt-get install iptables-persistent -y```
 
 If properly configured, this will allow you to run dnsseed in userspace, using
 the ```-p 5353``` option. iptables-persistent is used to make the change stick after a reboot.
@@ -219,7 +197,7 @@ Enter the address you chose for your Seeder. You should see a list of IP address
 
 For an example of what you should be seeing, look at the results for seed.digibyte.org here:
 
-[https://www.whatsmydns.net/#A/seed.digibyte.org](https://www.whatsmydns.net/#A/seed.digibyte.org)
+[https://www.whatsmydns.net/#A/seed.digibyte.help](https://www.whatsmydns.net/#A/seed.digibyte.help)
 
 
 STEP 6. SETUP DIGIBYTE SEEDER TO STARTUP AT BOOT
@@ -227,25 +205,25 @@ STEP 6. SETUP DIGIBYTE SEEDER TO STARTUP AT BOOT
 
 You can use the included startseeder.sh script to automatically startup your DigiByte Seeder when your system boots.
 
-Edit the script to add your DigiByte Seeder credentials:
-
-$ ```nano ~/digibyte-seeder/startseeder.sh```
-
-Save and exit. Copy the file to your home folder:
+Copy the script to your home folder:
 
 $ ```cp ~/digibyte-seeder/startseeder.sh ~/```
 
-Make it executable:
+Edit the script to add your DigiByte Seeder credentials:
 
-$ ```sudo chmod +x ~/digibyte-seeder/startseeder.sh```
+$ ```nano ~/startseeder.sh```
+
+Save and exit. Make it executable:
+
+$ ```sudo chmod +x ~/startseeder.sh```
 
 Edit cron:
 
 $ ```crontab -e```
 
-Add this value to the bottom of your cron file. Replace 'user' with your user account name.
+Add this value to the bottom of your cron file. Replace '<user>' with your user account name.
 
-```@reboot sleep 30 && /home/user/startseeder.sh```
+```@reboot sleep 30 && /home/<user>/startseeder.sh```
 
 When your server boots, it will pause for 30 seconds, before launching your DigiByte Seeder. Adjust the duration if needed. Save and exit.
 
@@ -260,6 +238,8 @@ All Ubuntu releases from 16.10 onwards come installed with systemd-resolved, whi
 The recommended solution is to bind the seeder to a specific IP address
 
 $ ```./dnsseed -h seed.example.com -n server.example.com -a 123.123.123.123```
+
+If that does not work, you can also try [this](https://www.linuxuprising.com/2020/07/ubuntu-how-to-free-up-port-53-used-by.html).
 
 ### Firewall
 

@@ -25,8 +25,19 @@ SEEDER_EMAIL=youremail.example.com
 # The IP address of the server running your seeder
 SEEDER_SERVER_IP=123.123.123.123
 
+# The DNS port. Usually 53 or 5353.
+SEEDER_PORT=53
+
+# The chain you are creating the seeder for. Enter either MAIN or TESTNET.
+SEEDER_CHAIN=MAIN
+
 # ==============================================================
 
+if [ "$SEEDER_CHAIN" = "TESTNET" ]; then
+  CHAIN="--testnet"
+elif [ "$SEEDER_CHAIN" = "MAIN" ]; then
+  CHAIN=""
+fi
 
 SESSION="dgbseeder"
 SESSIONEXISTS=$(tmux list-sessions | grep $SESSION)
@@ -38,7 +49,7 @@ if [ "$SESSIONEXISTS" = "" ]
 then
     tmux new-session -d -s $SESSION
     tmux rename-window -t 0 'dgbseeder'
-    tmux send-keys -t 'dgbseeder' '' C-m 'cd digibyte-seeder' C-m clear C-m "./dnsseed -h ${SEEDER_ADDRESS} -n ${SEEDER_SERVER} -m ${SEEDER_EMAIL} -p 5353 -a ${SEEDER_SERVER_IP}" C-m
+    tmux send-keys -t 'dgbseeder' '' C-m 'cd digibyte-seeder' C-m clear C-m "./dnsseed -h ${SEEDER_ADDRESS} -n ${SEEDER_SERVER} -m ${SEEDER_EMAIL} -p ${SEEDER_PORT} -a ${SEEDER_SERVER_IP} ${CHAIN}" C-m
     tmux ls
 else
   echo "Tmux session active! Open it with ´tmux a -t dgbseeder´"

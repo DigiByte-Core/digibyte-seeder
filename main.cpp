@@ -170,8 +170,10 @@ public:
         filter_whitelist.insert(NODE_NETWORK_LIMITED); // x400
         filter_whitelist.insert(NODE_NETWORK_LIMITED | NODE_BLOOM); // x404
         filter_whitelist.insert(NODE_NETWORK_LIMITED | NODE_WITNESS); // x408
+        filter_whitelist.insert(NODE_NETWORK_LIMITED | NODE_NETWORK | NODE_WITNESS); // x409
         filter_whitelist.insert(NODE_NETWORK_LIMITED | NODE_WITNESS | NODE_COMPACT_FILTERS); // x448
         filter_whitelist.insert(NODE_NETWORK_LIMITED | NODE_WITNESS | NODE_BLOOM); // x40c
+        filter_whitelist.insert(NODE_NETWORK_LIMITED | NODE_NETWORK | NODE_WITNESS | NODE_BLOOM); // x40d
     }
     if (host != NULL && ns == NULL) showHelp = true;
     if (showHelp) {
@@ -426,8 +428,8 @@ extern "C" void* ThreadStats(void*) {
 // via the #DGBCIT channel on the DigiByte Discord server: https://discord.com/channels/878200503815782400/1133815334013509764
 // Alternatively, create an issue ticket here: https://github.com/DigiByte-Core/digibyte/issues
 
-static const string mainnet_seeds[] = {"seed.digibyte.io", "seed.digibyte.org", "seed.digibyteblockchain.org", "seed.digibyte.help", "eu.digibyteseed.com", "seed.digibyte.link", "seed.quakeguy.com", ""};
-static const string testnet_seeds[] = {"testseed.digibyteblockchain.org", "testnetseed.digibyte.help", "testnet.digibyteseed.com", "testnetseed.digibyte.link", ""};
+static const string mainnet_seeds[] = {"seed.digibyte.io", "seed.digibyte.org", "seed.digibyteblockchain.org", "seed.digibyte.help", "eu.digibyteseed.com", "seed.digibyte.link", "seed.quakeguy.com", "seed.digibyte.services", ""};
+static const string testnet_seeds[] = {"testseed.digibyteblockchain.org", "testnetseed.digibyte.help", "testnet.digibyteseed.com", "testnetseed.digibyte.link", "testnetseed.digibyte.services", ""};
 static const string *seeds = mainnet_seeds;
 
 extern "C" void* ThreadSeeder(void*) {

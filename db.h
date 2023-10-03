@@ -14,6 +14,8 @@
 
 #define REQUIRE_VERSION 70017
 
+#define MIN_IP_RETURNED 20
+
 static inline int GetRequireHeight(const bool testnet = fTestNet)
 {
     return testnet ? 0 : 1430000;
